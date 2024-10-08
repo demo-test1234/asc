@@ -34,14 +34,14 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
 
-      - name: Test
+      - name: Install Dependencies
         shell: bash -el {0}
         run: |
           conda info
           python --version
 #          pip install Cython
-#          conda install -y -c conda-forge pynini==2.1.5
-#          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+          conda install -y -c conda-forge pynini==2.1.5
+          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
 #
 #      - name: Prepare
 #        run: |
