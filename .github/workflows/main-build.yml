@@ -23,37 +23,43 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Python 3.8
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.8'
-
       - name: Code Prepare
         run: git submodule update --init --recursive
 
-      - name: Prepare
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniconda-version: "latest"
+          python-version: '3.8'
+
+      - name: Test
         run: |
-          pip install --upgrade pip setuptools wheel
-          pip install Cython
-          pip install pynini
-
-      - name: Install Dependencies
-        run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-
-      - name: Download Models
-        run: python -m download_model.py
-
-      - name: Install PyInstaller 6.10.0
-        run: pip install pyinstaller==6.10.0
-
-      - name: Build PyInstaller
-        run: pyinstaller -y build.spec
-
-      - name: Clean
-        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
-
-      - name: Debug
-        run: ls -al ./dist/
+          conda install -y -c conda-forge pynini==2.1.5
+          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+#
+#      - name: Prepare
+#        run: |
+#          pip install --upgrade pip setuptools wheel
+#          pip install Cython
+#          pip install pynini
+#
+#      - name: Install Dependencies
+#        run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+#
+#      - name: Download Models
+#        run: python -m download_model.py
+#
+#      - name: Install PyInstaller 6.10.0
+#        run: pip install pyinstaller==6.10.0
+#
+#      - name: Build PyInstaller
+#        run: pyinstaller -y build.spec
+#
+#      - name: Clean
+#        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+#
+#      - name: Debug
+#        run: ls -al ./dist/
 
 #      - name: Build Release Files
 #        run: npm run build
