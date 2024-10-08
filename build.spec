@@ -98,6 +98,7 @@ coll = COLLECT(
         + Tree('third_party/Matcha-TTS/matcha', prefix = 'matcha')
         + Tree(f'{site_packages_path}/tn', prefix = 'tn')
         + Tree(f'{site_packages_path}/whisper', prefix = 'whisper')
+        + Tree(f'{site_packages_path}/onnxruntime', prefix = 'onnxruntime')
     ,
     strip = False,
     upx = True,

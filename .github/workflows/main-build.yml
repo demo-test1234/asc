@@ -52,7 +52,7 @@ jobs:
         run: pyinstaller -y build.spec
 
       - name: Clean
-        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+        run: rm -r ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
 
       - name: Debug
         run: ls -al ./dist/
