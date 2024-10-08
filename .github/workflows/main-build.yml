@@ -58,17 +58,14 @@ jobs:
         run: ls -al ./dist/
 
       - name: Zip Dist
-        uses: montudor/action-zip@v1
-        with:
-            args: zip -qq -r dist.zip dist
+        run: |
+          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
+            zip -r server-cosyvoice.zip dist/server-cosyvoice
+          elif [ ${{ runner.os }} == 'Windows' ]; then
+            powershell Compress-Archive -Path dist/server-cosyvoice -DestinationPath server-cosyvoice.zip
 
-#      - name: Build Release Files
-#        run: npm run build
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-            path: dist.zip
+            path: server-cosyvoice.zip
 
