@@ -15,7 +15,7 @@ jobs:
 #              - os: ubuntu-latest
 #                arch: [arm64, amd64]
               - os: macos-latest
-                arch: [amd64]
+                arch: [arm64]
 #              - os: windows-latest
 #                arch: [amd64]
 
@@ -69,6 +69,9 @@ jobs:
           elif [ ${{ runner.os }} == 'Windows' ]; then
             powershell Compress-Archive -Path dist/server-cosyvoice -DestinationPath server-cosyvoice.zip
           fi
+
+      - name: Debug
+        run: ls -al ./server-cosyvoice.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
