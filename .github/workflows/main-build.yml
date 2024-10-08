@@ -25,7 +25,7 @@ jobs:
 
       - name: Set build name
         id: build_name
-        run: echo "DIST_FILE_NAME='${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d%H%M%S)'" >> $GITHUB_ENV
+        run: echo "DIST_FILE_NAME=\"${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d%H%M%S)\"" >> $GITHUB_ENV
 
       - name: Upload To OSS
         uses: tvrcgo/oss-action@master
