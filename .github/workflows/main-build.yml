@@ -23,75 +23,59 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-#      - name: Code Prepare
-#        run: git submodule update --init --recursive
-#
-#      - name: Setup Miniconda
-#        uses: conda-incubator/setup-miniconda@v3
-#        with:
-#          miniconda-version: "latest"
-#          activate-environment: "test"
-#          python-version: 3.8
-#          auto-activate-base: false
-#
-#      - name: Install Dependencies
-#        shell: bash -el {0}
-#        run: |
-#          conda info
-#          python --version
-#          conda install -y -c conda-forge pynini==2.1.5
-#          pip install pyinstaller==6.10.0
-#          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-#
-#      - name: Download Model
-#        shell: bash -el {0}
-#        run: python download_model.py
-#
-#      - name: Build PyInstaller
-#        shell: bash -el {0}
-#        run: pyinstaller -y build.spec
-#
-#      - name: Clean
-#        run: |
-#          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
-#            rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
-#          elif [ ${{ runner.os }} == 'Windows' ]; then
-#            Remove-Item -Force ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git -ErrorAction SilentlyContinue
-#          fi
-#
-#      - name: Debug
-#        run: ls -al ./dist/
-#
-#      - name: Zip Dist
-#        run: |
-#          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
-#            zip -r server-cosyvoice.zip dist/server-cosyvoice
-#          elif [ ${{ runner.os }} == 'Windows' ]; then
-#            powershell Compress-Archive -Path dist/server-cosyvoice -DestinationPath server-cosyvoice.zip
-#          fi
-#
-#      - name: Debug
-#        run: ls -al ./server-cosyvoice.zip
+      - name: Code Prepare
+        run: git submodule update --init --recursive
 
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#            path: server-cosyvoice.zip
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniconda-version: "latest"
+          activate-environment: "test"
+          python-version: 3.8
+          auto-activate-base: false
+
+      - name: Install Dependencies
+        shell: bash -el {0}
+        run: |
+          conda info
+          python --version
+          conda install -y -c conda-forge pynini==2.1.5
+          pip install pyinstaller==6.10.0
+          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+
+      - name: Download Model
+        shell: bash -el {0}
+        run: python download_model.py
+
+      - name: Build PyInstaller
+        shell: bash -el {0}
+        run: pyinstaller -y build.spec
+
+      - name: Clean
+        run: |
+          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
+            rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+          elif [ ${{ runner.os }} == 'Windows' ]; then
+            Remove-Item -Force ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git -ErrorAction SilentlyContinue
+          fi
+
+      - name: Debug
+        run: ls -al ./dist/
+
+      - name: Zip Dist
+        run: |
+          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
+            zip -r server-cosyvoice.zip dist/server-cosyvoice
+          elif [ ${{ runner.os }} == 'Windows' ]; then
+            powershell Compress-Archive -Path dist/server-cosyvoice -DestinationPath server-cosyvoice.zip
+          fi
+
+      - name: Debug
+        run: ls -al ./server-cosyvoice.zip
 
       - name: Set build name
         id: build_name
         run: echo "DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
-
-#      - name: Upload
-#        uses: modstart-lib/oss-action@master
-#        with:
-#          key-id: ${{ secrets.OSS_KEY_ID }}
-#          key-secret: ${{ secrets.OSS_KEY_SECRET }}
-#          region: ${{ secrets.OSS_REGION }}
-#          bucket: ${{ secrets.OSS_BUCKET }}
-#          timeout: 3600
-#          assets: |
-#            server-cosyvoice.zip: server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
 
       - name: Upload
         uses: modstart-lib/oss-action@master
@@ -102,4 +86,15 @@ jobs:
           bucket: ${{ secrets.OSS_BUCKET }}
           timeout: 3600
           assets: |
-            cross_lingual_prompt.wav: server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.wav
+            server-cosyvoice.zip:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
+
+#      - name: Upload
+#        uses: modstart-lib/oss-action@master
+#        with:
+#          key-id: ${{ secrets.OSS_KEY_ID }}
+#          key-secret: ${{ secrets.OSS_KEY_SECRET }}
+#          region: ${{ secrets.OSS_REGION }}
+#          bucket: ${{ secrets.OSS_BUCKET }}
+#          timeout: 3600
+#          assets: |
+#            cross_lingual_prompt.wav:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.wav
