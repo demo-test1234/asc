@@ -33,7 +33,7 @@ jobs:
 
       - name: Prepare
         run: |
-          pip install --upgrade pip
+          pip install --upgrade pip setuptools wheel
           pip install Cython
           pip install --no-build-isolation pynini==2.1.5
 
