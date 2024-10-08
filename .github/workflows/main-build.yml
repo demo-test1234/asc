@@ -62,7 +62,8 @@ jobs:
 #        run: pyinstaller -y build.spec
 #
 #      - name: Clean
-#        run: rm -r ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+#        run: | Remove-Item -Force .\webui.py -ErrorAction SilentlyContinue
+#  rm -r ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
 #
 #      - name: Debug
 #        run: ls -al ./dist/
