@@ -46,6 +46,9 @@ jobs:
       - name: Clean
         run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
 
+      - name: Debug
+        run: ls -al ./dist/
+
 #      - name: Build Release Files
 #        run: npm run build
 #        env:
