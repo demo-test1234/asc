@@ -63,6 +63,7 @@ jobs:
             zip -r server-cosyvoice.zip dist/server-cosyvoice
           elif [ ${{ runner.os }} == 'Windows' ]; then
             powershell Compress-Archive -Path dist/server-cosyvoice -DestinationPath server-cosyvoice.zip
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
