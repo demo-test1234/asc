@@ -3,7 +3,7 @@ name: Build
 on:
     push:
         branches:
-            - main-disable
+            - main
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
           include:
 #              - os: ubuntu-latest
 #                arch: [arm64, amd64]
-#              - os: macos-latest
-#                arch: [arm64]
-              - os: windows-latest
+              - os: macos-latest
                 arch: [amd64]
+#              - os: windows-latest
+#                arch: [amd64]
 
     steps:
       - name: Checkout Code
