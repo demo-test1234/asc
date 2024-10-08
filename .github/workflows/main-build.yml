@@ -73,10 +73,10 @@ jobs:
       - name: Debug
         run: ls -al ./server-cosyvoice.zip
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-            path: server-cosyvoice.zip
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#            path: server-cosyvoice.zip
 
       - name: Set build name
         id: build_name
@@ -91,4 +91,4 @@ jobs:
           bucket: ${{ secrets.OSS_BUCKET }}
           timeout: 3600
           assets: |
-            server-cosyvoice.zip: server-cosyvoice/server-cosyvoice-{{ env.DIST_FILE_NAME }}.md
+            server-cosyvoice.zip: server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.md
