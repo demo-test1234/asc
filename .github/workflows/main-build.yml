@@ -45,7 +45,7 @@ jobs:
 
       - name: Download Model
         shell: bash -el {0}
-        run: python -m download_model.py
+        run: python download_model.py
 
       - name: Build PyInstaller
         shell: bash -el {0}
