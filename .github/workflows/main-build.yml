@@ -40,31 +40,22 @@ jobs:
           conda info
           python --version
           conda install -y -c conda-forge pynini==2.1.5
+          pip install pyinstaller==6.10.0
           pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-#
-#      - name: Prepare
-#        run: |
-#          pip install --upgrade pip setuptools wheel
-#          pip install Cython
-#          pip install pynini
-#
-#      - name: Install Dependencies
-#        run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-#
-#      - name: Download Models
-#        run: python -m download_model.py
-#
-#      - name: Install PyInstaller 6.10.0
-#        run: pip install pyinstaller==6.10.0
-#
-#      - name: Build PyInstaller
-#        run: pyinstaller -y build.spec
-#
-#      - name: Clean
-#        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
-#
-#      - name: Debug
-#        run: ls -al ./dist/
+
+      - name: Download Model
+        shell: bash -el {0}
+        run: python -m download_model.py
+
+      - name: Build PyInstaller
+        shell: bash -el {0}
+        run: pyinstaller -y build.spec
+
+      - name: Clean
+        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+
+      - name: Debug
+        run: ls -al ./dist/
 
 #      - name: Build Release Files
 #        run: npm run build
