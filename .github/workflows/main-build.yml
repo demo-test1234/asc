@@ -98,3 +98,4 @@ jobs:
           timeout: 3600
           assets: |
             cross_lingual_prompt.wav:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.wav
+
