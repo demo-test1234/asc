@@ -3,7 +3,7 @@ name: Build
 on:
     push:
         branches:
-            - main
+            - main-disable
 
 jobs:
   build:
@@ -78,7 +78,7 @@ jobs:
         run: echo "DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
 
       - name: Upload
-        uses: modstart-lib/oss-action@master
+        uses: modstart/github-oss-action@master
         with:
           key-id: ${{ secrets.OSS_KEY_ID }}
           key-secret: ${{ secrets.OSS_KEY_SECRET }}
