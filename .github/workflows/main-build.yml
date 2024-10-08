@@ -32,7 +32,7 @@ jobs:
         run: git submodule update --init --recursive
 
       - name: Prepare
-        run: pip install pynini==2.1.5
+        run: pip install cpython pynini==2.1.5
 
       - name: Install Dependencies
         run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
