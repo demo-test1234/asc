@@ -35,6 +35,7 @@ jobs:
           auto-activate-base: false
 
       - name: Test
+        shell: bash -el {0}
         run: |
           conda info
           python --version
