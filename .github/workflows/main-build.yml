@@ -30,11 +30,15 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           miniconda-version: "latest"
-          python-version: "3.8"
+          python-version: 3.8
           auto-activate-base: false
 
       - name: Test
         run: |
+          conda info
+          conda list
+          conda config --show-sources
+          conda config --show
           python --version
           pip install Cython
           conda install -y -c conda-forge pynini==2.1.5
