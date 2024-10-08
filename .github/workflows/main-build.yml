@@ -36,6 +36,7 @@ jobs:
 
       - name: Test
         run: |
+          conda info
           python --version
 #          pip install Cython
 #          conda install -y -c conda-forge pynini==2.1.5
