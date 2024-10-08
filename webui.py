@@ -134,6 +134,7 @@ def generate_audio(tts_text, mode_checkbox_group, sft_dropdown, prompt_text, pro
 
 def main():
     with gr.Blocks() as demo:
+
         gr.Markdown("### 代码库 [CosyVoice](https://github.com/FunAudioLLM/CosyVoice) \
                     预训练模型 [CosyVoice-300M](https://www.modelscope.cn/models/iic/CosyVoice-300M) \
                     [CosyVoice-300M-Instruct](https://www.modelscope.cn/models/iic/CosyVoice-300M-Instruct) \
@@ -167,9 +168,13 @@ def main():
                                       seed, stream, speed],
                               outputs=[audio_output])
         mode_checkbox_group.change(fn=change_instruction, inputs=[mode_checkbox_group], outputs=[instruction_text])
-    demo.queue(max_size=4, default_concurrency_limit=2)
-    demo.launch(server_name='0.0.0.0', server_port=args.port)
 
+
+    # demo.queue(max_size=4, default_concurrency_limit=2)
+    # demo.launch(server_name='127.0.0.1', server_port=args.port)
+    import msbrick.api
+    msbrick.api.set_app(gr.mount_gradio_app(msbrick.api.get_app(), demo, path="/"))
+    msbrick.api.run(args)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -181,6 +186,9 @@ if __name__ == '__main__':
                         default='pretrained_models/CosyVoice-300M',
                         help='local path or modelscope repo id')
     args = parser.parse_args()
+    import msbrick.util
+    args.model_dir = msbrick.util.rootDir('pretrained_models/CosyVoice-300M')
+    msbrick.util.banner({'args': args})
     cosyvoice = CosyVoice(args.model_dir)
     sft_spk = cosyvoice.list_avaliable_spks()
     prompt_sr, target_sr = 16000, 22050
