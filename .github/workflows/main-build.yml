@@ -57,17 +57,18 @@ jobs:
       - name: Debug
         run: ls -al ./dist/
 
+      - name: Zip Dist
+        uses: montudor/action-zip@v1
+        with:
+            args: zip -qq -r dist.zip dist
+
 #      - name: Build Release Files
 #        run: npm run build
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#            path: |
-#                dist-release/*.exe
-#                dist-release/*.dmg
-#                dist-release/*.AppImage
-#                dist-release/*.deb
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+            path: dist.zip
 
