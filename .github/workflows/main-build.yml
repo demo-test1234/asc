@@ -1,0 +1,62 @@
+name: Build
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+          include:
+#              - os: ubuntu-latest
+#                arch: [arm64, amd64]
+              - os: macos-latest
+                arch: [arm64]
+#              - os: windows-latest
+#                arch: [arm64, amd64]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.8'
+
+      - name: Install Dependencies
+        run: git submodule update --init --recursive
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+
+      - name: Download Models
+        run: python -m download_model.py
+
+      - name: Install PyInstaller 6.10.0
+        run: pip install pyinstaller==6.10.0
+
+      - name: Build PyInstaller
+        run: pyinstaller -y build.spec
+
+      - name: Clean
+        run: rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
+
+#      - name: Build Release Files
+#        run: npm run build
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#            path: |
+#                dist-release/*.exe
+#                dist-release/*.dmg
+#                dist-release/*.AppImage
+#                dist-release/*.deb
+
