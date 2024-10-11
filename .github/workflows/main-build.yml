@@ -81,7 +81,11 @@ jobs:
       - name: Set build name
         id: build_name
         run: |
-          DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)-${RANDOM}
+          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
+            DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)-${RANDOM}
+          elif [ ${{ runner.os }} == 'Windows' ]; then
+            DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(Get-Date -Format "yyyyMMdd_HHmmss")-${RANDOM}
+          fi
           echo ::add-mask::$DIST_FILE_NAME
           echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
 
