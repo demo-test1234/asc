@@ -49,6 +49,5 @@ compile_commands.json
 *_pb2.py
 
 build/
-dist/
 
 server-cosyvoice.zip
