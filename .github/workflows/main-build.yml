@@ -89,8 +89,9 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $DIST_FILE_NAME = "Windows-X64-v$(Get-Date -Format 'yyyyMMdd_HHmmss')"
-          Write-Host "::add-mask::$DIST_FILE_NAME"
+          $randomNumber = Get-Random -Minimum 10000 -Maximum 99999
+          $DIST_FILE_NAME = "Windows-X64-v$(Get-Date -Format 'yyyyMMdd_HHmmss')-$randomNumber"
+          
           echo "DIST_FILE_NAME=$DIST_FILE_NAME" >> $env:GITHUB_ENV
 
       - name: Upload
