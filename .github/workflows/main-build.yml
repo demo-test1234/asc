@@ -91,18 +91,7 @@ jobs:
         run: |
           $DIST_FILE_NAME = "Windows-X64-v$(Get-Date -Format 'yyyyMMdd_HHmmss')"
           Write-Host "::add-mask::$DIST_FILE_NAME"
-          Write-Host "DIST_FILE_NAME=$DIST_FILE_NAME" | Out-File -FilePath $env:GITHUB_ENV -Append
-
-#      - name: Upload
-#        uses: modstart/github-oss-action@master
-#        with:
-#          key-id: ${{ secrets.OSS_KEY_ID }}
-#          key-secret: ${{ secrets.OSS_KEY_SECRET }}
-#          region: ${{ secrets.OSS_REGION }}
-#          bucket: ${{ secrets.OSS_BUCKET }}
-#          timeout: 3600
-#          assets: |
-#            server-cosyvoice.zip:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
+          echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
 
       - name: Upload
         uses: modstart/github-oss-action@master
@@ -114,6 +103,17 @@ jobs:
           timeout: 3600
           assets: |
             cross_lingual_prompt.wav:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.wav
+
+#      - name: Upload
+#        uses: modstart/github-oss-action@master
+#        with:
+#          key-id: ${{ secrets.OSS_KEY_ID }}
+#          key-secret: ${{ secrets.OSS_KEY_SECRET }}
+#          region: ${{ secrets.OSS_REGION }}
+#          bucket: ${{ secrets.OSS_BUCKET }}
+#          timeout: 3600
+#          assets: |
+#            server-cosyvoice.zip:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
 
 
 
