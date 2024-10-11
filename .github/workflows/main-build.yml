@@ -79,13 +79,16 @@ jobs:
 #        run: ls -al ./server-cosyvoice.zip
 
       - name: Set build name
-        id: build_name
+        if: runner.os == 'Linux' || runner.os == 'macOS'
         run: |
-          if [ ${{ runner.os }} == 'Linux' ] || [ ${{ runner.os }} == 'macOS' ]; then
-            DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)-${RANDOM}
-          elif [ ${{ runner.os }} == 'Windows' ]; then
-            DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(Get-Date -Format "yyyyMMdd_HHmmss")-${RANDOM}
-          fi
+          DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S)-${RANDOM}
+          echo ::add-mask::$DIST_FILE_NAME
+          echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
+
+      - name: Set build name
+        if: runner.os == 'Windows'
+        run: |
+          $DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(Get-Date -Format "yyyyMMdd_HHmmss")-${RANDOM}
           echo ::add-mask::$DIST_FILE_NAME
           echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
 
