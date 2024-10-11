@@ -81,7 +81,7 @@ jobs:
       - name: Set build name
         id: build_name
         run: |
-          DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S_%N)
+          DIST_FILE_NAME=${{ runner.os }}-${{ runner.arch }}-v$(date +%Y%m%d_%H%M%S_%3N)
           echo ::add-mask::$DIST_FILE_NAME
           echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
 
