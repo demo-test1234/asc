@@ -12,12 +12,12 @@ jobs:
     strategy:
       matrix:
           include:
-#              - os: ubuntu-latest
-#                arch: [arm64, amd64]
+              - os: ubuntu-latest
+                arch: [arm64, amd64]
 #              - os: macos-latest
 #                arch: [arm64, amd64]
-              - os: windows-latest
-                arch: [amd64]
+#              - os: windows-latest
+#                arch: [amd64]
 
     steps:
       - name: Checkout Code
@@ -34,22 +34,22 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
 
-#      - name: Install Dependencies
-#        shell: bash -el {0}
-#        run: |
-#          conda info
-#          python --version
-#          conda install -y -c conda-forge pynini==2.1.5
-#          pip install pyinstaller==6.10.0
-#          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-#
-#      - name: Download Model
-#        shell: bash -el {0}
-#        run: python download_model.py
-#
-#      - name: Build PyInstaller
-#        shell: bash -el {0}
-#        run: pyinstaller -y build.spec
+      - name: Install Dependencies
+        shell: bash -el {0}
+        run: |
+          conda info
+          python --version
+          conda install -y -c conda-forge pynini==2.1.5
+          pip install pyinstaller==6.10.0
+          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
+
+      - name: Download Model
+        shell: bash -el {0}
+        run: python download_model.py
+
+      - name: Build PyInstaller
+        shell: bash -el {0}
+        run: pyinstaller -y build.spec
 
       - name: Clean ( Linux / macOS )
         if: runner.os == 'Linux' || runner.os == 'macOS'
