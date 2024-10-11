@@ -94,7 +94,7 @@ jobs:
 #            server-cosyvoice.zip:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
 
       - name: Upload
-        uses: modstart-lib/oss-action@master
+        uses: modstart/github-oss-action@master
         with:
           key-id: ${{ secrets.OSS_KEY_ID }}
           key-secret: ${{ secrets.OSS_KEY_SECRET }}
