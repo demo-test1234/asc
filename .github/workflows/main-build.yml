@@ -87,10 +87,11 @@ jobs:
 
       - name: Set build name
         if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          $DIST_FILE_NAME="${{ runner.os }}-${{ runner.arch }}-v$(Get-Date -Format 'yyyyMMdd_HHmmss')"
-          echo ::add-mask::$DIST_FILE_NAME
-          echo DIST_FILE_NAME=$DIST_FILE_NAME >> $GITHUB_ENV
+          $DIST_FILE_NAME = "Windows-X64-v$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+          Write-Host "::add-mask::$DIST_FILE_NAME"
+          Write-Host "DIST_FILE_NAME=$DIST_FILE_NAME" | Out-File -FilePath $env:GITHUB_ENV -Append
 
 #      - name: Upload
 #        uses: modstart/github-oss-action@master
