@@ -20,8 +20,8 @@ jobs:
                 arch: [amd64]
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+#      - name: Checkout Code
+#        uses: actions/checkout@v4
 
 #      - name: Code Prepare
 #        run: git submodule update --init --recursive
