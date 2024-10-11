@@ -81,7 +81,12 @@ jobs:
           cd ../../
 
       - name: Debug
+        if: runner.os == 'Linux' || runner.os == 'macOS'
         run: ls -al ./server-cosyvoice.zip
+
+      - name: Debug
+        if: runner.os == 'Windows'
+        run: dir .\server-cosyvoice.zip
 
       - name: Set build name
         if: runner.os == 'Linux' || runner.os == 'macOS'
