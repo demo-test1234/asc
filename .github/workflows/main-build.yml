@@ -90,7 +90,7 @@ jobs:
         shell: pwsh
         run: |
           $DIST_FILE_NAME = "Windows-X64-v$(Get-Date -Format 'yyyyMMdd_HHmmss')"
-          Write-Host "DIST_FILE_NAME=$DIST_FILE_NAME" >> $env:GITHUB_ENV
+          echo "DIST_FILE_NAME=$DIST_FILE_NAME" >> $env:GITHUB_ENV
 
       - name: Upload
         uses: modstart/github-oss-action@master
