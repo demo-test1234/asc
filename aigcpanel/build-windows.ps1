@@ -16,5 +16,5 @@ Write-Output "VERSION: $VERSION"
 Remove-Item -Recurse -Force .\server-cosyvoice*.zip -ErrorAction SilentlyContinue
 
 Set-Location .\dist\server-cosyvoice
-Compress-Archive -Path * -DestinationPath "..\..\server-cosyvoice-v$VERSION.zip"
+Compress-Archive -Path * -DestinationPath "..\..\server-cosyvoice-$VERSION.zip" -Verbose
 Set-Location -Path ..\..
