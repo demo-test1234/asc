@@ -1,4 +1,4 @@
-import sys, os, datetime, random
+import sys, os, datetime, random, platform
 
 
 def banner(param: dict):
@@ -43,7 +43,7 @@ def platformName():
     return os_name
 
 def platformArch():
-    arch = os.uname().machine.lower()
+    arch = platform.machine().lower()
     if arch in ['x86_64', 'amd64']:
         arch = 'x86'
     elif arch in ['arm64', 'aarch64']:
