@@ -13,6 +13,6 @@ echo "VERSION: ${VERSION}"
 
 rm -rfv ./server-cosyvoice*.zip
 
-cd ./dist/server-cosyvoice && zip -rv "../../server-cosyvoice-v${VERSION}.zip" * && cd ../..
+cd ./dist/server-cosyvoice && zip -rv "../../server-cosyvoice-${VERSION}.zip" * && cd ../..
 
 
