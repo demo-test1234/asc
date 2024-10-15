@@ -9,6 +9,6 @@ config['platformName'] = util.platformName()
 config['platformArch'] = util.platformArch()
 
 outputFile = util.rootDir('dist/server-cosyvoice/config.json')
-json.dump(config, open(outputFile, 'w'), indent=4, ensure_ascii=False)
+json.dump(config, open(outputFile, 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
 
 print(f"{config['platformName']}-{config['platformArch']}-v{config['version']}")
