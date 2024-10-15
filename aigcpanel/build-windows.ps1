@@ -1,6 +1,8 @@
 # Enable echo
 $VerbosePreference = "Continue"
 
+conda 'shell.powershell' 'hook' | Out-String | Invoke-Expression
+
 conda activate cosyvoice
 
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue

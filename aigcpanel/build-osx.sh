@@ -1,5 +1,7 @@
 #!/bin/sh
 
+eval "$(conda shell.bash hook)"
+
 conda activate cosyvoice
 
 rm -rfv build/ dist/
