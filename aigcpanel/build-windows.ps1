@@ -5,8 +5,8 @@ conda 'shell.powershell' 'hook' | Out-String | Invoke-Expression
 
 conda activate cosyvoice
 
-Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
-Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
+# Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
+# Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
 
 pyinstaller -y build.spec
 
