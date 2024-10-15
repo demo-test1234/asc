@@ -1,0 +1,13 @@
+{
+  "name": "server-cosyvoice",
+  "version": "0.0.1",
+  "title": "CosyVoice模型-M300模型",
+  "description": "基于CosyVoice模型+M300模型的模型，支持声音克隆等功能",
+  "entry": "main",
+  "platformName": "__ENV__",
+  "platformArch": "__ARCH__",
+  "functions": [
+    "voiceClone",
+    "tts"
+  ]
+}

@@ -49,5 +49,7 @@ compile_commands.json
 *_pb2.py
 
 build/
+aigcpaneloutput/
+dist/
 
 server-cosyvoice.zip

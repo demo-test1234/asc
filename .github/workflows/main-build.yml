@@ -69,10 +69,22 @@ jobs:
         if: runner.os == 'Windows'
         run: dir .\dist\
 
-      - name: Zip Dist ( Linux / macOS )
-        if: runner.os == 'Linux' || runner.os == 'macOS'
+      - name: Zip Dist ( macOS )
+        if: runner.os == 'macOS'
         run: |
-          cp config.json ./dist/server-cosyvoice/config.json
+          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
+          sed -i '' 's/__ENV__/${{ runner.os }} /g' dist/server-cosyvoice/config.json
+          sed -i '' 's/__ARCH__/${{ runner.arch }}/g' dist/server-cosyvoice/config.json
+          cd ./dist/server-cosyvoice
+          zip -rv ../../server-cosyvoice.zip *
+          cd ../../
+
+      - name: Zip Dist ( Linux )
+        if: runner.os == 'Linux'
+        run: |
+          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
+          sed -i 's/__ENV__/${{ runner.os }} /g' dist/server-cosyvoice/config.json
+          sed -i 's/__ARCH__/${{ runner.arch }}/g' dist/server-cosyvoice/config.json
           cd ./dist/server-cosyvoice
           zip -rv ../../server-cosyvoice.zip *
           cd ../../
@@ -80,7 +92,9 @@ jobs:
       - name: Zip Dist ( Windows )
         if: runner.os == 'Windows'
         run: |
-          cp config.json ./dist/server-cosyvoice/config.json
+          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
+          (Get-Content ./dist/server-cosyvoice/config.json) -replace '__ENV__', '${{ runner.os }}' | Set-Content ./dist/server-cosyvoice/config.json
+          (Get-Content ./dist/server-cosyvoice/config.json) -replace '__ARCH__', '${{ runner.arch }}' | Set-Content ./dist/server-cosyvoice/config.json
           cd ./dist/server-cosyvoice
           Compress-Archive -Path * -DestinationPath ../../server-cosyvoice.zip
           cd ../../
