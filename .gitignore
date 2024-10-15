@@ -51,5 +51,6 @@ compile_commands.json
 build/
 aigcpaneloutput/
 dist/
+/server-cosyvoice-*.zip
 
 server-cosyvoice.zip

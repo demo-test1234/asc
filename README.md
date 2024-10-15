@@ -1,9 +1,8 @@
-# 部署教程
+# 代码安装步骤
 
 ```shell
 
 ## 1. 安装 miniconda
-
 参考 https://docs.conda.io/en/latest/miniconda.html
 
 ## 2. 下载代码安装依赖
@@ -11,23 +10,15 @@ git clone --recursive https://github.com/modstart-lib/server-cosyvoice.git
 cd server-cosyvoice
 git submodule update --init --recursive
 
+## 3. 安装依赖
 conda create -n cosyvoice python=3.8
 conda activate cosyvoice
 pip install pyinstaller==6.10.0
 conda install -y -c conda-forge pynini==2.1.5
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
 
-## 3. 下载模型
+## 4. 下载模型
 python download_model.py
-
-## 4. 打包代码
-pyinstaller -y build.spec
-rm -r ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
-
-## 5. 运行
-# 直接在命令行运行
-./dist/server-cosyvoice/main
-
 ```
 
 # CosyVoice
