@@ -6,7 +6,7 @@
 参考 https://docs.conda.io/en/latest/miniconda.html
 
 ## 2. 下载代码安装依赖
-git clone --recursive https://github.com/modstart-lib/server-cosyvoice.git
+git clone --recursive https://gitee.com/modstart-lib/server-cosyvoice.git
 cd server-cosyvoice
 git submodule update --init --recursive
 
@@ -19,6 +19,14 @@ pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --tru
 
 ## 4. 下载模型
 python download_model.py
+
+## 5. 运行
+python webui.py
+
+## 6. 打包
+./aigcpanel/build-osx.sh
+./aigcpanel/build-win.ps1
+./aigcpanel/build-linux.sh
 ```
 
 # CosyVoice
