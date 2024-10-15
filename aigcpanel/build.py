@@ -3,7 +3,7 @@ import json
 from .base import util
 
 configFile = util.rootDir('aigcpanel/config.json')
-config = json.load(open(configFile))
+config = json.load(open(configFile, 'r', encoding='utf-8'))
 
 config['platformName'] = util.platformName()
 config['platformArch'] = util.platformArch()
