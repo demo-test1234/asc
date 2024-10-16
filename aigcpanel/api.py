@@ -19,7 +19,7 @@ async def ping():
     return JSONResponse(content={"code": 0, "msg": "ok"})
 
 
-@app.get("/config")
+@app.post("/config")
 async def config():
     data = {
         "functions": {
