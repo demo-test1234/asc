@@ -184,6 +184,11 @@ if __name__ == '__main__':
                         type=str,
                         default='pretrained_models/CosyVoice-300M',
                         help='local path or modelscope repo id')
+    parser.add_argument('--gpu_mode',
+                        type=str,
+                        default='',
+                        help='<empty> | gpu')
+
     args = parser.parse_args()
     import aigcpanel.base.util
     args.model_dir = aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
