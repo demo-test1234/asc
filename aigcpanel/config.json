@@ -7,7 +7,7 @@
   "platformName": "__ENV__",
   "platformArch": "__ARCH__",
   "functions": [
-    "voiceClone",
-    "tts"
+    "soundClone",
+    "soundTts"
   ]
 }

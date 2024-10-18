@@ -23,9 +23,9 @@ async def ping():
 async def config():
     data = {
         "functions": {
-            "voiceClone": {
+            "soundClone": {
             },
-            "tts": {
+            "soundTts": {
                 "speakers": runtime['cosyvoice'].list_avaliable_spks()
             }
         }
@@ -33,10 +33,10 @@ async def config():
     return JSONResponse(content={"code": 0, "msg": "ok", "data": data})
 
 
-@app.post("/tts")
+@app.post("/soundTts")
 async def tts(request: Request, background_tasks: BackgroundTasks):
     if aigcpanel.base.job.overCount():
-        return JSONResponse(content={"code": -1, "msg": "Too many Jobs"})
+        return JSONResponse(content={"code": 0, "msg": "Too many Jobs", "data": { "jobId": 0 }})
 
     body = await request.json()
     seed = body.get("seed", 0)
@@ -69,10 +69,10 @@ async def tts(request: Request, background_tasks: BackgroundTasks):
     return JSONResponse(content={"code": 0, "msg": "ok", "data": {"jobId": jobId}})
 
 
-@app.post("/voiceClone")
+@app.post("/soundClone")
 async def voiceClone(request: Request, background_tasks: BackgroundTasks):
     if aigcpanel.base.job.overCount():
-        return JSONResponse(content={"code": -1, "msg": "Too many Jobs"})
+        return JSONResponse(content={"code": 0, "msg": "Too many Jobs", "data": { "jobId": 0 }})
 
     body = await request.json()
     seed = body.get("seed", 0)
