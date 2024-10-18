@@ -190,6 +190,8 @@ if __name__ == '__main__':
                         help='<empty> | gpu')
 
     args = parser.parse_args()
+    if args.gpu_mode == 'cpu':
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
     import aigcpanel.base.util
     args.model_dir = aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
     aigcpanel.base.util.banner({'args': args})
