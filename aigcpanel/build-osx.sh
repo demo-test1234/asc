@@ -13,6 +13,8 @@ rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
 VERSION=$(python -m aigcpanel.build)
 echo "VERSION: ${VERSION}"
 
+cp ./aigcpanel/server.js ./dist/server-cosyvoice/server.js
+
 rm -rfv ./server-cosyvoice*.zip
 
 cd ./dist/server-cosyvoice && zip -rv "../../server-cosyvoice-${VERSION}.zip" * && cd ../..
