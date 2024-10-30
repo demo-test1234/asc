@@ -2,6 +2,8 @@
 
 import sys, os, sysconfig
 from PyInstaller.utils.hooks import collect_data_files, collect_all, collect_submodules
+import static_ffmpeg
+static_ffmpeg.add_paths()
 
 def list_py_files(directory):
     py_files = []
@@ -99,6 +101,7 @@ coll = COLLECT(
         + Tree(f'{site_packages_path}/tn', prefix = 'tn')
         + Tree(f'{site_packages_path}/whisper', prefix = 'whisper')
         + Tree(f'{site_packages_path}/onnxruntime', prefix = 'onnxruntime')
+        + Tree(f'{site_packages_path}/static_ffmpeg', prefix = 'static_ffmpeg')
     ,
     strip = False,
     upx = True,
