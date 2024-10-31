@@ -6,12 +6,16 @@ let shellController = null
 
 module.exports = {
     ServerApi: null,
+    _url() {
+        return `http://localhost:${serverRuntime.port}/`
+    },
     async _client() {
-        return await this.ServerApi.GradioClient.connect(`http://localhost:${serverRuntime.port}/`);
+        return await this.ServerApi.GradioClient.connect(this._url());
     },
     _send(serverInfo, type, data) {
         this.ServerApi.event.sendChannel(serverInfo.eventChannelName, {type, data})
     },
+
     async init(ServerApi) {
         this.ServerApi = ServerApi;
     },
@@ -75,7 +79,7 @@ module.exports = {
             "code": 0,
             "msg": "ok",
             "data": {
-                "httpUrl": shellController ? `http://localhost:${serverRuntime.port}/` : null,
+                "httpUrl": shellController ? this._url() : null,
                 "functions": {
                     "soundClone": {},
                     "soundTts": {
