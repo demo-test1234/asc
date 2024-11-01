@@ -81,11 +81,84 @@ module.exports = {
             "data": {
                 "httpUrl": shellController ? this._url() : null,
                 "functions": {
-                    "soundClone": {},
+                    "soundClone": {
+                        "param": [
+                            {
+                                name: "speed",
+                                type: "slider",
+                                title: "语速",
+                                icon: "iconfont icon-speed",
+                                defaultValue: 1.0,
+                                placeholder: "请输入语速",
+                                min: 0.5,
+                                max: 2,
+                                step: 0.1,
+                                sliderMarks: {'0.5': '慢', '1': '正常', '2': '快'},
+                            },
+                            {
+                                name: "seed",
+                                type: "inputNumber",
+                                title: "随机种子",
+                                icon: "iconfont icon-seed",
+                                defaultValue: 0,
+                                placeholder: "请输入随机种子",
+                                tips: '相同的种子可以确保每次生成结果数据一致',
+                                min: 0,
+                                max: 999999,
+                            },
+                            {
+                                name: "crossLingual",
+                                type: "switch",
+                                title: "跨语种复刻",
+                                defaultValue: false,
+                                placeholder: "请输入语速",
+                                tips: "跨语种克隆时需要特殊处理，因此需要标记是否为跨语种克隆"
+                            }
+                        ],
+                    },
                     "soundTts": {
-                        "speakers": [
-                            '中文女', '中文男', '日语男', '粤语女', '英文女', '英文男', '韩语女'
-                        ]
+                        "param": [
+                            {
+                                name: "speaker",
+                                type: "select",
+                                title: "音色",
+                                icon: "iconfont icon-speaker",
+                                defaultValue: "中文女",
+                                placeholder: "请选择音色",
+                                options: [
+                                    {label: "中文女", value: "中文女"},
+                                    {label: "中文男", value: "中文男"},
+                                    {label: "日语男", value: "日语男"},
+                                    {label: "粤语女", value: "粤语女"},
+                                    {label: "英文女", value: "英文女"},
+                                    {label: "英文男", value: "英文男"},
+                                    {label: "韩语女", value: "韩语女"},
+                                ]
+                            },
+                            {
+                                name: "speed",
+                                type: "slider",
+                                title: "语速",
+                                icon: "iconfont icon-speed",
+                                defaultValue: 1.0,
+                                placeholder: "请输入语速",
+                                min: 0.5,
+                                max: 2,
+                                step: 0.1,
+                                sliderMarks: {'0.5': '慢', '1': '正常', '2': '快'},
+                            },
+                            {
+                                name: "seed",
+                                type: "inputNumber",
+                                title: "随机种子",
+                                icon: "iconfont icon-seed",
+                                tips: '相同的种子可以确保每次生成结果数据一致',
+                                defaultValue: 0,
+                                placeholder: "请输入随机种子",
+                                min: 0,
+                                max: 999999,
+                            }
+                        ],
                     }
                 }
             }
@@ -109,14 +182,14 @@ module.exports = {
         const result = await client.predict("/generate_audio", {
             mode_checkbox_group: "预训练音色",
             tts_text: data.text,
-            sft_dropdown: data.speaker,
+            sft_dropdown: data.param.speaker,
             prompt_text: "",
             prompt_wav_upload: null,
             prompt_wav_record: null,
             instruct_text: "",
-            seed: data.seed,
+            seed: parseInt(data.param.seed),
             stream: "false",
-            speed: data.speed,
+            speed: parseFloat(data.param.speed),
         });
         resultData.end = Date.now()
         resultData.data.filePath = await this.ServerApi.file.temp('wav')
@@ -152,9 +225,9 @@ module.exports = {
             prompt_wav_upload: this.ServerApi.GradioHandleFile(data.promptAudio),
             prompt_wav_record: null,
             instruct_text: "",
-            seed: data.seed,
+            seed: parseInt(data.param.seed),
             stream: "false",
-            speed: data.speed,
+            speed: parseFloat(data.param.speed),
         });
         // console.log('soundClone.result', result)
         resultData.end = Date.now()

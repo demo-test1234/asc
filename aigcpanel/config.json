@@ -15,31 +15,8 @@
       "name": "port",
       "type": "text",
       "title": "服务端口",
-      "default": "",
+      "defaultValue": "",
       "placeholder": "留空会检测使用随机端口"
-    },
-    {
-      "name": "startCommand",
-      "type": "text",
-      "title": "启动命令",
-      "default": "",
-      "placeholder": "留空使用默认启动命令"
-    },
-    {
-      "name": "gpuMode",
-      "type": "radio",
-      "title": "GPU模式",
-      "default": "",
-      "options": [
-        {
-          "label": "GPU优先",
-          "value": ""
-        },
-        {
-          "label": "使用CPU",
-          "value": "cpu"
-        }
-      ]
     }
   ]
 }
