@@ -3,6 +3,7 @@ const serverRuntime = {
 }
 
 let shellController = null
+let isRunning = false
 
 module.exports = {
     ServerApi: null,
@@ -178,27 +179,41 @@ module.exports = {
                 filePath: null
             }
         }
+        if (isRunning) {
+            resultData.type = 'retry'
+            return {
+                code: 0,
+                msg: 'ok',
+                data: resultData
+            }
+        }
+        isRunning = true
         resultData.start = Date.now()
-        const result = await client.predict("/generate_audio", {
-            mode_checkbox_group: "预训练音色",
-            tts_text: data.text,
-            sft_dropdown: data.param.speaker,
-            prompt_text: "",
-            prompt_wav_upload: null,
-            prompt_wav_record: null,
-            instruct_text: "",
-            seed: parseInt(data.param.seed),
-            stream: "false",
-            speed: parseFloat(data.param.speed),
-        });
-        resultData.end = Date.now()
-        resultData.data.filePath = await this.ServerApi.file.temp('wav')
-        const resultWav = result.data[0].url
-        await this.ServerApi.requestUrlFileToLocal(resultWav, resultData.data.filePath)
-        return {
-            code: 0,
-            msg: 'ok',
-            data: resultData
+        try {
+            const result = await client.predict("/generate_audio", {
+                mode_checkbox_group: "预训练音色",
+                tts_text: data.text,
+                sft_dropdown: data.param.speaker,
+                prompt_text: "",
+                prompt_wav_upload: null,
+                prompt_wav_record: null,
+                instruct_text: "",
+                seed: parseInt(data.param.seed),
+                stream: "false",
+                speed: parseFloat(data.param.speed),
+            });
+            resultData.end = Date.now()
+            resultData.data.filePath = await this.ServerApi.file.temp('wav')
+            const resultWav = result.data[0].url
+            await this.ServerApi.requestUrlFileToLocal(resultWav, resultData.data.filePath)
+            return {
+                code: 0,
+                msg: 'ok',
+                data: resultData
+            }
+        } catch (e) {
+        } finally {
+            isRunning = false
         }
     },
     async soundClone(serverInfo, data) {
@@ -215,29 +230,43 @@ module.exports = {
                 filePath: null
             }
         }
+        if (isRunning) {
+            resultData.type = 'retry'
+            return {
+                code: 0,
+                msg: 'ok',
+                data: resultData
+            }
+        }
+        isRunning = true
         const param = data.param || {}
         resultData.start = Date.now()
-        const result = await client.predict("/generate_audio", {
-            mode_checkbox_group: param['CrossLingual'] ? "跨语种复刻" : "3s极速复刻",
-            tts_text: data.text,
-            sft_dropdown: "",
-            prompt_text: data.promptText,
-            prompt_wav_upload: this.ServerApi.GradioHandleFile(data.promptAudio),
-            prompt_wav_record: null,
-            instruct_text: "",
-            seed: parseInt(data.param.seed),
-            stream: "false",
-            speed: parseFloat(data.param.speed),
-        });
-        // console.log('soundClone.result', result)
-        resultData.end = Date.now()
-        resultData.data.filePath = await this.ServerApi.file.temp('wav')
-        const resultWav = result.data[0].url
-        await this.ServerApi.requestUrlFileToLocal(resultWav, resultData.data.filePath)
-        return {
-            code: 0,
-            msg: 'ok',
-            data: resultData
+        try {
+            const result = await client.predict("/generate_audio", {
+                mode_checkbox_group: param['CrossLingual'] ? "跨语种复刻" : "3s极速复刻",
+                tts_text: data.text,
+                sft_dropdown: "",
+                prompt_text: data.promptText,
+                prompt_wav_upload: this.ServerApi.GradioHandleFile(data.promptAudio),
+                prompt_wav_record: null,
+                instruct_text: "",
+                seed: parseInt(data.param.seed),
+                stream: "false",
+                speed: parseFloat(data.param.speed),
+            });
+            // console.log('soundClone.result', result)
+            resultData.end = Date.now()
+            resultData.data.filePath = await this.ServerApi.file.temp('wav')
+            const resultWav = result.data[0].url
+            await this.ServerApi.requestUrlFileToLocal(resultWav, resultData.data.filePath)
+            return {
+                code: 0,
+                msg: 'ok',
+                data: resultData
+            }
+        } catch (e) {
+        } finally {
+            isRunning = false
         }
     },
 
