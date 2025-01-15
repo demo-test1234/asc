@@ -48,6 +48,8 @@ compile_commands.json
 *_pb2_grpc.py
 *_pb2.py
 
+/.aienv/
+
 build/
 aigcpaneloutput/
 dist/
