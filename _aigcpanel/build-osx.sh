@@ -3,9 +3,9 @@
 # 环境准备
 eval "$(conda shell.bash hook)"
 conda env list
-rm -rfv ./.aienv
-conda create --prefix ./.aienv -y python=3.8
-conda activate ./.aienv
+rm -rfv ./_aienv
+conda create --prefix ./_aienv -y python=3.8
+conda activate ./_aienv
 conda info
 # 环境准备
 
@@ -17,20 +17,14 @@ python download_model.py
 # 初始化环境
 
 # 启动服务
-python webui.py
+# python webui.py
 # 启动服务
 
 # 打包服务
 rm -rfv build dist
+VERSION=$(python -m _aigcpanel.build)
+echo "VERSION: ${VERSION}"
+rm -rfv ./aigcpanel-server-cosyvoice*.zip
+zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" * -x "_aigcpanel/*"
 # 打包服务
-
-#VERSION=$(python -m aigcpanel.build)
-#echo "VERSION: ${VERSION}"
-#
-#cp ./aigcpanel/server.js ./dist/server-cosyvoice/server.js
-#
-#rm -rfv ./server-cosyvoice*.zip
-#
-#cd ./dist/server-cosyvoice && zip -rv "../../server-cosyvoice-${VERSION}.zip" * && cd ../..
-
 
