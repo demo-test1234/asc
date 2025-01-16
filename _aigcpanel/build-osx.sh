@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -x
+set -e
 
 # 环境准备
 eval "$(conda shell.bash hook)"
@@ -23,12 +24,12 @@ python download_model.py
 # 启动服务
 
 # 清除文件
-rm -rfv build
-rm -rfv dist
-rm -rfv asset
-rm -rfv *.md
-rm -rfv download_model.py
-rm -rfv requirements.txt
+rm -rfv build || true
+rm -rfv dist || true
+rm -rfv asset || true
+rm -rfv *.md || true
+rm -rfv download_model.py || true
+rm -rfv requirements.txt || true
 # 清除文件
 
 # 打包服务

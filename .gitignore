@@ -56,3 +56,4 @@ build/
 aigcpaneloutput/
 dist/
 /config.json
+/logs/
