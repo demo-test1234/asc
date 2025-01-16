@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # 环境准备
 eval "$(conda shell.bash hook)"

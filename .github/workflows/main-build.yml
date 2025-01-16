@@ -34,17 +34,17 @@ jobs:
           python-version: 3.8
           auto-activate-base: false
 
-      - name: Install Dependencies
+      - name: Build
         if: runner.os == 'macOS'
         run: |
           ./_aigcpanel/build-osx.sh
 
-      - name: Install Dependencies
+      - name: Build
         if: runner.os == 'Linux'
         run: |
           ./_aigcpanel/build-linux.sh
 
-      - name: Install Dependencies
+      - name: Build
         if: runner.os == 'Windows'
         run: |
           ./_aigcpanel/build-win.ps1
