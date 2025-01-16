@@ -196,6 +196,7 @@ if __name__ == '__main__':
     if args.gpu_mode == 'cpu':
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
     os.environ["GRADIO_SHARE"] = "false"
+    os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
     args.port = os.environ.get('AIGCPANEL_SETTING_PORT', args.port)
     import aigcpanel.base.util
     args.model_dir = aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
