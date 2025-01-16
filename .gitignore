@@ -57,3 +57,5 @@ aigcpaneloutput/
 dist/
 /config.json
 /logs/
+/launcher
+/launcher.exe

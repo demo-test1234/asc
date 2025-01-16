@@ -17,10 +17,10 @@ def rootDir(path):
     return root() + os.sep + path
 
 def binaryPath(path):
-    p = rootDir('binary')
+    p = rootDir(path)
     if sys.platform == 'win32':
         p += '.exe'
-    return p + os.sep + path
+    return p
 
 def datetimeRandomName():
     return datetime.datetime.now().strftime('%Y%m%d%H%M%S_') + str(random.randint(1000, 9999))
