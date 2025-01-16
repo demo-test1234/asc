@@ -22,11 +22,20 @@ python download_model.py
 # python webui.py
 # 启动服务
 
+# 清除文件
+rm -rfv build
+rm -rfv dist
+rm -rfv asset
+rm -rfv pretrained_models/CosyVoice-300M/asset
+rm -rfv *.md
+rm -rfv requirements.txt
+rm -rfv download_model.py
+rm -rfv *.zip
+# 清除文件
+
 # 打包服务
-rm -rfv build dist
 VERSION=$(python -m _aigcpanel.build)
 echo "VERSION: ${VERSION}"
-rm -rfv ./aigcpanel-server-cosyvoice*.zip
 zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" * -x "_aigcpanel/*"
 # 打包服务
 

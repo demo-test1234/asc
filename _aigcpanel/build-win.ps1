@@ -20,11 +20,14 @@ python download_model.py
 #python webui.py
 # 启动服务
 
-# 打包服务
+# 清除文件
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
+Remove-Item -Recurse -Force .\*.zip -ErrorAction SilentlyContinue
+# 清除文件
+
+# 打包服务
 $VERSION = python -m _aigcpanel.build
 Write-Output "VERSION: $VERSION"
-Remove-Item -Recurse -Force .\*.zip -ErrorAction SilentlyContinue
-Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
+Compress-Archive -Path .\* -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
 # 打包服务
