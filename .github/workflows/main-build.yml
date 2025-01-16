@@ -35,77 +35,19 @@ jobs:
           auto-activate-base: false
 
       - name: Install Dependencies
-        shell: bash -el {0}
-        run: |
-          conda info
-          python --version
-          conda install -y -c conda-forge pynini==2.1.5
-          pip install pyinstaller==6.10.0
-          pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-
-      - name: Download Model
-        shell: bash -el {0}
-        run: python download_model.py
-
-      - name: Build PyInstaller
-        shell: bash -el {0}
-        run: pyinstaller -y build.spec
-
-      - name: Clean ( Linux / macOS )
-        if: runner.os == 'Linux' || runner.os == 'macOS'
-        run: |
-          rm -rfv ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git
-
-      - name: Clean ( Windows )
-        if: runner.os == 'Windows'
-        run: |
-          Remove-Item -Force ./dist/server-cosyvoice/_dep/pretrained_models/CosyVoice-300M/.git -ErrorAction SilentlyContinue
-
-      - name: Debug ( Linux / macOS )
-        if: runner.os == 'Linux' || runner.os == 'macOS'
-        run: ls -al ./dist/
-
-      - name: Debug ( Windows )
-        if: runner.os == 'Windows'
-        run: dir .\dist\
-
-      - name: Zip Dist ( macOS )
         if: runner.os == 'macOS'
         run: |
-          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
-          sed -i '' 's/__ENV__/${{ runner.os }} /g' dist/server-cosyvoice/config.json
-          sed -i '' 's/__ARCH__/${{ runner.arch }}/g' dist/server-cosyvoice/config.json
-          cd ./dist/server-cosyvoice
-          zip -rv ../../server-cosyvoice.zip *
-          cd ../../
+          ./_aigcpanel/build-osx.sh
 
-      - name: Zip Dist ( Linux )
+      - name: Install Dependencies
         if: runner.os == 'Linux'
         run: |
-          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
-          sed -i 's/__ENV__/${{ runner.os }} /g' dist/server-cosyvoice/config.json
-          sed -i 's/__ARCH__/${{ runner.arch }}/g' dist/server-cosyvoice/config.json
-          cd ./dist/server-cosyvoice
-          zip -rv ../../server-cosyvoice.zip *
-          cd ../../
+          ./_aigcpanel/build-linux.sh
 
-      - name: Zip Dist ( Windows )
+      - name: Install Dependencies
         if: runner.os == 'Windows'
         run: |
-          cp ./aigcpanel/config.json ./dist/server-cosyvoice/config.json
-          (Get-Content ./dist/server-cosyvoice/config.json) -replace '__ENV__', '${{ runner.os }}' | Set-Content ./dist/server-cosyvoice/config.json
-          (Get-Content ./dist/server-cosyvoice/config.json) -replace '__ARCH__', '${{ runner.arch }}' | Set-Content ./dist/server-cosyvoice/config.json
-          cd ./dist/server-cosyvoice
-          Compress-Archive -Path * -DestinationPath ../../server-cosyvoice.zip
-          cd ../../
-
-      - name: Debug ( Linux / macOS )
-        if: runner.os == 'Linux' || runner.os == 'macOS'
-        run: ls -al ./server-cosyvoice.zip
-
-      - name: Debug ( Windows )
-        if: runner.os == 'Windows'
-        run: dir .\server-cosyvoice.zip
+          ./_aigcpanel/build-win.ps1
 
       - name: Set Build Name ( Linux / macOS )
         if: runner.os == 'Linux' || runner.os == 'macOS'
@@ -123,27 +65,18 @@ jobs:
           Write-Host "::add-mask::$DIST_FILE_NAME"
           echo "DIST_FILE_NAME=$DIST_FILE_NAME" >> $env:GITHUB_ENV
 
-#      - name: Upload
-#        uses: modstart/github-oss-action@master
-#        with:
-#          key-id: ${{ secrets.OSS_KEY_ID }}
-#          key-secret: ${{ secrets.OSS_KEY_SECRET }}
-#          region: ${{ secrets.OSS_REGION }}
-#          bucket: ${{ secrets.OSS_BUCKET }}
-#          timeout: 3600
-#          assets: |
-#            cross_lingual_prompt.wav:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.wav
-
       - name: Upload
         uses: modstart/github-oss-action@master
         with:
+
+          title: ${{ github.event.head_commit.message }}
           key-id: ${{ secrets.OSS_KEY_ID }}
           key-secret: ${{ secrets.OSS_KEY_SECRET }}
           region: ${{ secrets.OSS_REGION }}
           bucket: ${{ secrets.OSS_BUCKET }}
-          timeout: 3600
+          callback: ${{ secrets.OSS_CALLBACK }}
           assets: |
-            server-cosyvoice.zip:server-cosyvoice/server-cosyvoice-${{ env.DIST_FILE_NAME }}.zip
+            *.zip:models/${{ env.DIST_FILE_NAME }}/
 
 
 
