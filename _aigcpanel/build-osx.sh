@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # 环境准备
 eval "$(conda shell.bash hook)"
 conda env list

@@ -4,9 +4,9 @@ $VerbosePreference = "Continue"
 # 环境准备
 conda 'shell.powershell' 'hook' | Out-String | Invoke-Expression
 conda env list
-Remove-Item -Recurse -Force ./.aienv -ErrorAction SilentlyContinue -Verbose
-conda create --prefix ./.aienv -y python=3.8
-conda activate ./.aienv
+Remove-Item -Recurse -Force ./_aienv -ErrorAction SilentlyContinue -Verbose
+conda create --prefix ./_aienv -y python=3.8
+conda activate ./_aienv
 # 环境准备
 
 # 初始化环境
@@ -17,21 +17,14 @@ python download_model.py
 # 初始化环境
 
 # 启动服务
-python webui.py
+#python webui.py
 # 启动服务
 
 # 打包服务
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
-# 打包服务
-
-$VERSION = python -m aigcpanel.build
+$VERSION = python -m _aigcpanel.build
 Write-Output "VERSION: $VERSION"
-
-Copy-Item -Path ./aigcpanel/server.js -Destination ./dist/server-cosyvoice/server.js
-
-Remove-Item -Recurse -Force .\server-cosyvoice*.zip -ErrorAction SilentlyContinue
-
-Set-Location .\dist\server-cosyvoice
-Compress-Archive -Path * -DestinationPath "..\..\server-cosyvoice-$VERSION.zip" -Verbose
-Set-Location -Path ..\..
+Remove-Item -Recurse -Force .\*.zip -ErrorAction SilentlyContinue
+Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
+# 打包服务

@@ -14,10 +14,10 @@ jobs:
           include:
 #              - os: ubuntu-latest
 #                arch: [arm64, amd64]
-              - os: macos-latest
-                arch: [arm64]
-#              - os: windows-latest
-#                arch: [amd64]
+#              - os: macos-latest
+#                arch: [arm64, amd64]
+              - os: windows-latest
+                arch: [amd64]
 
     steps:
       - name: Checkout Code
@@ -46,6 +46,7 @@ jobs:
 
       - name: Build
         if: runner.os == 'Windows'
+        shell: powershell
         run: |
           ./_aigcpanel/build-win.ps1
 
