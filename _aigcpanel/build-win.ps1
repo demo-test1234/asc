@@ -25,8 +25,9 @@ Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force asset -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force .\*.md -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force download_model.py -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force requirements.txt -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .\download_model.py -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .\requirements.txt -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .\third_party\Matcha-TTS\data -ErrorAction SilentlyContinue
 # 清除文件
 
 # 打包服务
