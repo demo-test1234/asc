@@ -33,5 +33,5 @@ Remove-Item -Recurse -Force requirements.txt -ErrorAction SilentlyContinue
 $VERSION = python -m _aigcpanel.build
 Write-Output "VERSION: $VERSION"
 Get-ChildItem -Path . -Exclude "_aigcpanel" |
-    Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
+    Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose -ErrorAction SilentlyContinue
 # 打包服务
