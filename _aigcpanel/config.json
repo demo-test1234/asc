@@ -1,6 +1,6 @@
 {
   "name": "server-cosyvoice",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "title": "CosyVoice-M300模型",
   "description": "基于CosyVoice模型+M300模型的模型，支持声音合成、声音克隆功能",
   "platformName": "__ENV__",

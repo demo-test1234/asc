@@ -1,4 +1,4 @@
-import sys, os, datetime, random, platform
+import sys, os, datetime, random, platform, shutil
 
 
 def banner(param: dict):
@@ -10,10 +10,7 @@ def banner(param: dict):
 
 
 def root():
-    if getattr(sys, 'frozen', False):
-        return os.path.dirname(sys.executable) + os.sep + '_dep'
-    else:
-        return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def rootDir(path):
@@ -42,6 +39,7 @@ def platformName():
         os_name = 'unknown'
     return os_name
 
+
 def platformArch():
     arch = platform.machine().lower()
     if arch in ['x86_64', 'amd64']:
@@ -51,3 +49,15 @@ def platformArch():
     else:
         arch = 'unknown'
     return arch
+
+
+def copyAll(src, dst):
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    for item in os.listdir(src):
+        src_path = os.path.join(src, item)
+        dest_path = os.path.join(dst, item)
+        if os.path.isfile(src_path):
+            shutil.copy2(src_path, dest_path)
+        else:
+            copyAll(src_path, dest_path)

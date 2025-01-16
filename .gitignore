@@ -50,6 +50,7 @@ compile_commands.json
 
 /_aienv/
 /*.zip
+/pretrained_models/
 
 build/
 aigcpaneloutput/
