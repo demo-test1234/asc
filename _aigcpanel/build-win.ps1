@@ -23,11 +23,15 @@ python download_model.py
 # 清除文件
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
-Remove-Item -Recurse -Force .\*.zip -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force asset -ErrorAction SilentlyContinue -Verbose
+Remove-Item -Recurse -Force .\*.md -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force download_model.py -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force requirements.txt -ErrorAction SilentlyContinue
 # 清除文件
 
 # 打包服务
 $VERSION = python -m _aigcpanel.build
 Write-Output "VERSION: $VERSION"
-Compress-Archive -Path .\* -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
+Get-ChildItem -Path . -Exclude "_aigcpanel" |
+    Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose
 # 打包服务

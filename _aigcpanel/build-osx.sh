@@ -26,11 +26,9 @@ python download_model.py
 rm -rfv build
 rm -rfv dist
 rm -rfv asset
-rm -rfv pretrained_models/CosyVoice-300M/asset
 rm -rfv *.md
-rm -rfv requirements.txt
 rm -rfv download_model.py
-rm -rfv *.zip
+rm -rfv requirements.txt
 # 清除文件
 
 # 打包服务
