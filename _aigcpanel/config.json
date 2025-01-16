@@ -5,7 +5,17 @@
   "description": "基于CosyVoice模型+M300模型的模型，支持声音合成、声音克隆功能",
   "platformName": "__ENV__",
   "platformArch": "__ARCH__",
-  "entry": "main",
+  "entry": "launcher",
+  "launcher": {
+    "entry": "./_aienv/bin/python",
+    "entryArgs": [
+      "webui.py"
+    ],
+    "envs": [
+      "AAA=111",
+      "BBB=222"
+    ]
+  },
   "functions": [
     "soundClone",
     "soundTts"
