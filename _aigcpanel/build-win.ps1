@@ -16,8 +16,15 @@ pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --tru
 python download_model.py
 # 初始化环境
 
+# 构建
+python -m py_compile webui.py
+Move-Item -Path "__pycache__\webui.cpython-38.pyc" -Destination "webui.pyc"
+Remove-Item -Path "__pycache__" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "webui.py" -Force -ErrorAction SilentlyContinue
+# 构建
+
 # 启动服务
-#python webui.py
+#python webui.pyc
 # 启动服务
 
 # 清除文件

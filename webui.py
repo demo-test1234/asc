@@ -197,7 +197,8 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
     os.environ["GRADIO_SHARE"] = "false"
     os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
-    args.port = os.environ.get('AIGCPANEL_SETTING_PORT', args.port)
+    args.port = os.environ.get('AIGCPANEL_SERVER_PORT', args.port)
+    print('args.port',args.port)
     import aigcpanel.base.util
     args.model_dir = aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
     aigcpanel.base.util.banner({'args': args})

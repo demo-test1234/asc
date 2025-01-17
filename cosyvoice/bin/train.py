@@ -84,7 +84,7 @@ def get_args():
 @record
 def main():
     args = get_args()
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s')
 
     override_dict = {k: None for k in ['llm', 'flow', 'hift'] if k != args.model}

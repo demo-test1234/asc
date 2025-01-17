@@ -53,7 +53,7 @@ def get_args():
 
 def main():
     args = get_args()
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s')
 
     cosyvoice = CosyVoice(args.model_dir, load_jit=False, load_onnx=False)

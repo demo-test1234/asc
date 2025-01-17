@@ -39,7 +39,7 @@ def get_args():
 
 def main():
     args = get_args()
-    logging.basicConfig(level=logging.DEBUG,
+    logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)s %(message)s')
 
     torch._C._jit_set_fusion_strategy([('STATIC', 1)])
