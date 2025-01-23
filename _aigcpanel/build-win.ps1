@@ -1,7 +1,12 @@
 # Enable echo
 $VerbosePreference = "Continue"
 
-Install-Module -Name 7Zip4Powershell
+# 工具准备
+Get-Module -ListAvailable -Name PowerShellGet -ErrorAction SilentlyContinue
+Install-Module -Name PowerShellGet -Force -Scope CurrentUser
+Install-Module -Name 7Zip4Powershell -Force -Scope CurrentUser
+Import-Module 7Zip4Powershell
+# 工具准备
 
 # 环境准备
 conda 'shell.powershell' 'hook' | Out-String | Invoke-Expression
@@ -45,5 +50,6 @@ Write-Output "VERSION: $VERSION"
 #Get-ChildItem -Path . -Exclude "_aigcpanel" |
 #    Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose -Force -ErrorAction Continue
 Remove-Item -Recurse -Force _aigcpanel -ErrorAction SilentlyContinue
-Compress-7Zip -Path . -Format Zip -ArchiveFileName "aigcpanel-server-cosyvoice-$VERSION.zip"
+Compress-7Zip -Path . -Format Zip -ArchiveFileName "..\aigcpanel-server-cosyvoice-$VERSION.zip"
+Move-Item -Path "..\aigcpanel-server-cosyvoice-$VERSION.zip" -Destination "aigcpanel-server-cosyvoice-$VERSION.zip"
 # 打包服务
