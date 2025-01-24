@@ -24,6 +24,7 @@ python -m py_compile webui.py
 mv __pycache__/webui.cpython-38.pyc webui.pyc
 rm -rfv __pycache__ || true
 rm -rfv webui.py || true
+find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 构建
 
 # 启动服务
