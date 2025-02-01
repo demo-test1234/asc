@@ -22,9 +22,6 @@ python download_model.py
 # 构建
 python -m py_compile webui.py
 mv __pycache__/webui.cpython-38.pyc webui.pyc
-rm -rfv __pycache__ || true
-rm -rfv webui.py || true
-find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 构建
 
 # 启动服务
@@ -32,12 +29,16 @@ find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 启动服务
 
 # 清除文件
+rm -rfv webui.py || true
 rm -rfv build || true
 rm -rfv dist || true
 rm -rfv asset || true
 rm -rfv *.md || true
 rm -rfv download_model.py || true
 rm -rfv requirements.txt || true
+rm -rfv .git || true
+rm -rfv .github || true
+find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 清除文件
 
 # 打包服务
