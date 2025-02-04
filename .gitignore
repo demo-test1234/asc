@@ -60,3 +60,4 @@ dist/
 /launcher
 /launcher.exe
 *.pyc
+/launcher-data/
