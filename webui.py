@@ -197,6 +197,7 @@ if __name__ == '__main__':
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
     os.environ["GRADIO_SHARE"] = "false"
     os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
+    os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '.cache','modelscope')
     args.port = int(os.environ.get('AIGCPANEL_SERVER_PORT', args.port))
     print('args.port',args.port)
     import aigcpanel.base.util
