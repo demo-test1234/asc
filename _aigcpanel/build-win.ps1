@@ -48,11 +48,13 @@ Remove-Item -Path "__pycache__" -Recurse -Force -ErrorAction SilentlyContinue
 
 # 打包服务
 $VERSION = python -m _aigcpanel.build
+$VERSION_ARCH = ($VERSION -split '-')[0..1] -join '-'
 Write-Output "VERSION: $VERSION"
-#Get-ChildItem -Path . -Exclude "_aigcpanel" |
-#    Compress-Archive -DestinationPath "aigcpanel-server-cosyvoice-$VERSION.zip" -Verbose -Force -ErrorAction Continue
+Write-Output "VERSION_ARCH: $VERSION_ARCH"
+Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/aigcpanel-server-launcher/launcher-$VERSION_ARCH" -OutFile "launcher.exe"
+Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffmpeg/ffmpeg-$VERSION_ARCH" -OutFile "binary\ffmpeg.exe"
+Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffprobe/ffprobe-$VERSION_ARCH" -OutFile "binary\ffprobe.exe"
 Remove-Item -Recurse -Force _aigcpanel -ErrorAction SilentlyContinue
-Get-ChildItem -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 Compress-7Zip -Path . -Format Zip -ArchiveFileName "..\aigcpanel-server-cosyvoice-$VERSION.zip"
 Move-Item -Path "..\aigcpanel-server-cosyvoice-$VERSION.zip" -Destination "aigcpanel-server-cosyvoice-$VERSION.zip"
 # 打包服务
