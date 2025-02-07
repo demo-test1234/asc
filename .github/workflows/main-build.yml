@@ -78,7 +78,7 @@ jobs:
           zone: ${{ secrets.KODO_ZONE }}
           callback: ${{ secrets.OSS_CALLBACK }}
           assets: |
-            *.zip:models/${{ env.DIST_FILE_NAME }}/
+            *.zip:models/aigcpanel-server-cosyvoice-${{ env.DIST_FILE_NAME }}/
 
 
 
