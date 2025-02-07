@@ -23,6 +23,9 @@ import librosa
 
 useGpu = torch.cuda.is_available()
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+os.environ["GRADIO_SHARE"] = "false"
+os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
+os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '.cache', 'modelscope')
 sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
 from cosyvoice.cli.cosyvoice import CosyVoice
 from cosyvoice.utils.file_utils import load_wav, logging
@@ -205,9 +208,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.gpu_mode == 'cpu':
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
-    os.environ["GRADIO_SHARE"] = "false"
-    os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
-    os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '.cache', 'modelscope')
     args.port = int(os.environ.get('AIGCPANEL_SERVER_PORT', args.port))
     print('args.port', args.port)
     print('useGPU', useGpu)
