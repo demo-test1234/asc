@@ -68,7 +68,7 @@ jobs:
           echo "DIST_FILE_NAME=$DIST_FILE_NAME" >> $env:GITHUB_ENV
 
       - name: Upload Kodo
-        if: secrets.UPLOAD_TYPE == 'kodo'
+        if: vars.UPLOAD_TYPE == 'kodo'
         uses: modstart/github-kodo-action@master
         with:
           title: ${{ github.event.head_commit.message }}
@@ -82,7 +82,7 @@ jobs:
             *.zip:models/aigcpanel-server-cosyvoice-${{ env.DIST_FILE_NAME }}/
 
       - name: Upload Oss
-        if: secrets.UPLOAD_TYPE == 'oss'
+        if: vars.UPLOAD_TYPE == 'oss'
         uses: modstart/github-oss-action@master
         with:
           title: ${{ github.event.head_commit.message }}
