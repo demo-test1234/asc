@@ -52,6 +52,8 @@ curl -o binary/ffmpeg "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/
 chmod +x binary/ffmpeg
 curl -o binary/ffprobe "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffprobe/ffprobe-${VERSION_ARCH}"
 chmod +x binary/ffprobe
+security find-identity -v -p codesigning
+find . -type f -exec sudo codesign --force --deep --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)" {} \;
 rm -rfv "_aigcpanel"
 zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" *
 # 打包服务
