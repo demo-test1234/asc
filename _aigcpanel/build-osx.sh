@@ -53,7 +53,8 @@ chmod +x binary/ffmpeg
 curl -o binary/ffprobe "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffprobe/ffprobe-${VERSION_ARCH}"
 chmod +x binary/ffprobe
 security find-identity -v -p codesigning
-find . -type f -exec sudo codesign --force --deep --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)" {} \;
+#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign -
+find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)"
 rm -rfv "_aigcpanel"
 zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" *
 # 打包服务
