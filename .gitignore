@@ -61,3 +61,4 @@ dist/
 /launcher.exe
 *.pyc
 /launcher-data/
+/_cache/

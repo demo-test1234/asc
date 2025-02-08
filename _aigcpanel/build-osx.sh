@@ -21,7 +21,9 @@ python download_model.py
 
 # 构建
 python -m py_compile webui.py
+python -m py_compile aigcpanerun.py
 mv __pycache__/webui.cpython-38.pyc webui.pyc
+mv __pycache__/aigcpanerun.cpython-38.pyc aigcpanerun.pyc
 # 构建
 
 # 启动服务
@@ -30,6 +32,7 @@ mv __pycache__/webui.cpython-38.pyc webui.pyc
 
 # 清除文件
 rm -rfv webui.py || true
+rm -rfv aigcpanerun.py || true
 rm -rfv build || true
 rm -rfv dist || true
 rm -rfv asset || true
@@ -42,6 +45,9 @@ find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 清除文件
 
 # 打包服务
+security find-identity -v -p codesigning
+#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign -
+find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)"
 VERSION=$(python -m _aigcpanel.build)
 VERSION_ARCH=$(echo $VERSION | awk -F '-' '{print $1"-"$2}')
 echo "VERSION: ${VERSION}"
@@ -52,10 +58,8 @@ curl -o binary/ffmpeg "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/
 chmod +x binary/ffmpeg
 curl -o binary/ffprobe "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffprobe/ffprobe-${VERSION_ARCH}"
 chmod +x binary/ffprobe
-security find-identity -v -p codesigning
-#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign -
-find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)"
-rm -rfv "_aigcpanel"
+rm -rfv "_aigcpanel/build*"
+rm -rfv "_aigcpanel/config.json"
 zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" *
 # 打包服务
 

@@ -25,7 +25,9 @@ python download_model.py
 
 # 构建
 python -m py_compile webui.py
+python -m py_compile aigcpanelrun.py
 Move-Item -Path "__pycache__\webui.cpython-38.pyc" -Destination "webui.pyc"
+Move-Item -Path "__pycache__\aigcpanelrun.cpython-38.pyc" -Destination "aigcpanelrun.pyc"
 # 构建
 
 # 启动服务
@@ -34,6 +36,7 @@ Move-Item -Path "__pycache__\webui.cpython-38.pyc" -Destination "webui.pyc"
 
 # 清除文件
 Remove-Item -Path "webui.py" -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "aigcpanelrun.py" -Force -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force asset -ErrorAction SilentlyContinue -Verbose
@@ -54,7 +57,8 @@ Write-Output "VERSION_ARCH: $VERSION_ARCH"
 Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/aigcpanel-server-launcher/launcher-$VERSION_ARCH" -OutFile "launcher.exe"
 Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffmpeg/ffmpeg-$VERSION_ARCH" -OutFile "binary\ffmpeg.exe"
 Invoke-WebRequest -Uri "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/ffprobe/ffprobe-$VERSION_ARCH" -OutFile "binary\ffprobe.exe"
-Remove-Item -Recurse -Force _aigcpanel -ErrorAction SilentlyContinue
+Remove-Item -Path "_aigcpanel/build*" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "_aigcpanel/config.json" -Recurse -Force -ErrorAction SilentlyContinue
 Compress-7Zip -Path . -Format Zip -ArchiveFileName "..\aigcpanel-server-cosyvoice-$VERSION.zip"
 Move-Item -Path "..\aigcpanel-server-cosyvoice-$VERSION.zip" -Destination "aigcpanel-server-cosyvoice-$VERSION.zip"
 # 打包服务
