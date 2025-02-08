@@ -46,8 +46,8 @@ find . -type d -name "__pycache__" -print -exec rm -r {} +
 
 # 打包服务
 security find-identity -v -p codesigning
-#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --sign -
-find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)"
+#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign - || true
+find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)" || true
 VERSION=$(python -m _aigcpanel.build)
 VERSION_ARCH=$(echo $VERSION | awk -F '-' '{print $1"-"$2}')
 echo "VERSION: ${VERSION}"
