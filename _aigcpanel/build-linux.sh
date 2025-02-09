@@ -21,9 +21,9 @@ python download_model.py
 
 # 构建
 python -m py_compile webui.py
-python -m py_compile aigcpanerun.py
+python -m py_compile aigcpanelrun.py
 mv __pycache__/webui.cpython-38.pyc webui.pyc
-mv __pycache__/aigcpanerun.cpython-38.pyc aigcpanerun.pyc
+mv __pycache__/aigcpanelrun.cpython-38.pyc aigcpanelrun.pyc
 # 构建
 
 # 启动服务
@@ -32,7 +32,7 @@ mv __pycache__/aigcpanerun.cpython-38.pyc aigcpanerun.pyc
 
 # 清除文件
 rm -rfv webui.py || true
-rm -rfv aigcpanerun.py || true
+rm -rfv aigcpanelrun.py || true
 rm -rfv build || true
 rm -rfv dist || true
 rm -rfv asset || true
