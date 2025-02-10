@@ -20,7 +20,7 @@ conda activate ./_aienv
 git submodule update --init --recursive
 conda install -y -c conda-forge pynini==2.1.5
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-python download_model.py
+#python download_model.py
 # 初始化环境
 
 # 构建
@@ -41,7 +41,7 @@ Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force asset -ErrorAction SilentlyContinue -Verbose
 Remove-Item -Recurse -Force .\*.md -ErrorAction SilentlyContinue
-Remove-Item -Recurse -Force .\download_model.py -ErrorAction SilentlyContinue
+#Remove-Item -Recurse -Force .\download_model.py -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\requirements.txt -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\third_party\Matcha-TTS\data -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\.git -ErrorAction SilentlyContinue

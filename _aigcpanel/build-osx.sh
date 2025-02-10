@@ -16,7 +16,7 @@ conda info
 git submodule update --init --recursive
 conda install -y -c conda-forge pynini==2.1.5
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-python download_model.py
+#python download_model.py
 # 初始化环境
 
 # 构建
@@ -37,7 +37,7 @@ rm -rfv build || true
 rm -rfv dist || true
 rm -rfv asset || true
 rm -rfv *.md || true
-rm -rfv download_model.py || true
+#rm -rfv download_model.py || true
 rm -rfv requirements.txt || true
 rm -rfv .git || true
 rm -rfv .github || true
@@ -45,9 +45,6 @@ find . -type d -name "__pycache__" -print -exec rm -r {} +
 # 清除文件
 
 # 打包服务
-security find-identity -v -p codesigning
-#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign - || true
-find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)" || true
 VERSION=$(python -m _aigcpanel.build)
 VERSION_ARCH=$(echo $VERSION | awk -F '-' '{print $1"-"$2}')
 echo "VERSION: ${VERSION}"
@@ -60,6 +57,9 @@ curl -o binary/ffprobe "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com
 chmod +x binary/ffprobe
 rm -rfv "_aigcpanel/build*"
 rm -rfv "_aigcpanel/config.json"
+security find-identity -v -p codesigning
+#find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign - || true
+find . \( -name "*.pyc" -o -name "*.dylib" -o -name "*.so" \) -print0 | xargs -0 -n 1 -P 4 sudo codesign --force --verbose --sign "Xi'an Yanyi Information Technology Co., Ltd (Q96H3H33RK)" || true
 zip -rv "./aigcpanel-server-cosyvoice-${VERSION}.zip" *
 # 打包服务
 

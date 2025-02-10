@@ -16,7 +16,7 @@ conda info
 git submodule update --init --recursive
 conda install -y -c conda-forge pynini==2.1.5
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host=mirrors.aliyun.com
-python download_model.py
+#python download_model.py
 # 初始化环境
 
 # 构建
@@ -37,7 +37,7 @@ rm -rfv build || true
 rm -rfv dist || true
 rm -rfv asset || true
 rm -rfv *.md || true
-rm -rfv download_model.py || true
+#rm -rfv download_model.py || true
 rm -rfv requirements.txt || true
 rm -rfv .git || true
 rm -rfv .github || true
