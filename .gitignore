@@ -62,3 +62,4 @@ dist/
 *.pyc
 /launcher-data/
 /_cache/
+/aigcpanelmodels/

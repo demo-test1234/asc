@@ -33,7 +33,7 @@ def main():
     config = _aigcpanel.base.file.contentJson(sys.argv[1])
     print('config', config)
     modelConfig = config['modelConfig']
-    model_dir = _aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
+    model_dir = _aigcpanel.base.util.rootDir('aigcpanelmodels/CosyVoice-300M')
     cosyvoice = CosyVoice(model_dir)
     prompt_sr, target_sr = 16000, 22050
     default_data = np.zeros(target_sr)

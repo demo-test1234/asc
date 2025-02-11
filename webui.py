@@ -198,7 +198,7 @@ if __name__ == '__main__':
                         default=8000)
     parser.add_argument('--model_dir',
                         type=str,
-                        default='pretrained_models/CosyVoice-300M',
+                        default='aigcpanelmodels/CosyVoice-300M',
                         help='local path or modelscope repo id')
     parser.add_argument('--gpu_mode',
                         type=str,
@@ -212,7 +212,7 @@ if __name__ == '__main__':
     print('args.port', args.port)
     print('useGPU', useGpu)
     import aigcpanel.base.util
-    args.model_dir = aigcpanel.base.util.rootDir('pretrained_models/CosyVoice-300M')
+    args.model_dir = aigcpanel.base.util.rootDir('aigcpanelmodels/CosyVoice-300M')
     aigcpanel.base.util.banner({'args': args})
     cosyvoice = CosyVoice(args.model_dir)
     aigcpanel.api.runtime['cosyvoice'] = cosyvoice
