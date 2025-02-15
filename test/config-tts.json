@@ -1,4 +1,5 @@
 {
+  "id": "Tts_1",
   "mode": "local",
   "modelConfig": {
     "type": "tts",

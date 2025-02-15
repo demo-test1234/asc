@@ -12,12 +12,12 @@ def build(data):
     return base64Data
 
 
-def param(key, value):
+def param(config, key, value):
     data = {key: value}
-    print(f'Param[{jsonStringify(data)}]')
-    print(f'AigcPanelRunParam[{build(data)}]')
+    print(f'Param[{config["id"]}][{jsonStringify(data)}]')
+    print(f'AigcPanelRunParam[{config["id"]}][{build(data)}]')
 
 
-def output(data):
-    print(f'Output[{jsonStringify(data)}]')
-    print(f'AigcPanelRunResult[{build(data)}]')
+def output(config, data):
+    print(f'Result[{config["id"]}][{jsonStringify(data)}]')
+    print(f'AigcPanelRunResult[{config["id"]}][{build(data)}]')
