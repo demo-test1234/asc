@@ -1,13 +1,12 @@
-import json
 import os
 import sys
 
 import _aigcpanel.base.file
-import _aigcpanel.base.util
 import _aigcpanel.base.result
+import _aigcpanel.base.util
 
 if len(sys.argv) != 2:
-    print("Usage: python aigcpanelrun.py <config_url>")
+    print("Usage: python -u -m aigcpanelrun <config_url>")
     exit(-1)
 
 ###### 模型数据开始 ######
@@ -17,9 +16,9 @@ import soundfile
 import librosa
 
 useGpu = torch.cuda.is_available()
+print('开始运行')
+_aigcpanel.base.result.param('UseGpu', useGpu)
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-os.environ["GRADIO_SHARE"] = "false"
-os.environ["GRADIO_ANALYTICS_ENABLED"] = "false"
 os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '_cache', 'modelscope')
 sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
 from cosyvoice.cli.cosyvoice import CosyVoice
@@ -28,15 +27,17 @@ from cosyvoice.utils.file_utils import load_wav
 
 sys.path.append('{}/binary'.format(ROOT_DIR))
 
-
 def main():
     config = _aigcpanel.base.file.contentJson(sys.argv[1])
+    if not 'mode' in config:
+        config['mode'] = 'local'
     print('config', config)
     modelConfig = config['modelConfig']
     model_dir = _aigcpanel.base.util.rootDir('aigcpanelmodels/CosyVoice-300M')
     cosyvoice = CosyVoice(model_dir)
     prompt_sr, target_sr = 16000, 22050
     default_data = np.zeros(target_sr)
+
     if modelConfig['type'] == 'tts':
         print('tts', modelConfig)
         set_all_random_seed(modelConfig['seed'])
@@ -48,11 +49,12 @@ def main():
             print('tts.i', i)
             audio_data.append(i['tts_speech'].numpy().flatten())
         audio_data = np.concatenate(audio_data)
-        filePath = _aigcpanel.base.file.localCacheRandomPath('wav')
-        soundfile.write(filePath, audio_data, 22050)
-        url = _aigcpanel.base.file.uploadToRandom(config['uploadConfig'], filePath)
-        _aigcpanel.base.result.output({'url': url})
-    elif modelConfig['type'] == 'soundClone':
+        url = _aigcpanel.base.file.localCacheRandomPath('wav')
+        soundfile.write(url, audio_data, 22050)
+        _aigcpanel.base.result.output({'url': _aigcpanel.base.file.urlForResult(config, url)})
+        return
+
+    if modelConfig['type'] == 'soundClone':
         print('soundClone', modelConfig)
         set_all_random_seed(modelConfig['seed'])
         modelConfig['_promptAudio'] = _aigcpanel.base.file.localCache(modelConfig['promptAudio'])
@@ -62,22 +64,24 @@ def main():
             # 跨语种复刻
             for i in cosyvoice.inference_cross_lingual(modelConfig['text'],
                                                        prompt_speech_16k,
-                                                       stream=False, speed=modelConfig['speed']):
+                                                       stream=False,
+                                                       speed=modelConfig['speed']):
                 audio_data.append(i['tts_speech'].numpy().flatten())
         else:
             # 3s极速复刻
             for i in cosyvoice.inference_zero_shot(modelConfig['text'],
                                                    modelConfig['promptText'],
                                                    prompt_speech_16k,
-                                                   stream=False, speed=modelConfig['speed']):
+                                                   stream=False,
+                                                   speed=modelConfig['speed']):
                 audio_data.append(i['tts_speech'].numpy().flatten())
         audio_data = np.concatenate(audio_data)
-        filePath = _aigcpanel.base.file.localCacheRandomPath('wav')
-        soundfile.write(filePath, audio_data, 22050)
-        url = _aigcpanel.base.file.uploadToRandom(config['uploadConfig'], filePath)
-        _aigcpanel.base.result.output({'url': url})
-    else:
-        raise Exception('Unknown model type:', modelConfig['type'])
+        url = _aigcpanel.base.file.localCacheRandomPath('wav')
+        soundfile.write(url, audio_data, 22050)
+        _aigcpanel.base.result.output({'url': _aigcpanel.base.file.urlForResult(config, url)})
+        return
+
+    raise Exception('Unknown model type:', modelConfig['type'])
 
 
 max_val = 0.8

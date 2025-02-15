@@ -1,0 +1,12 @@
+{
+  "mode": "local",
+  "modelConfig": {
+    "type": "soundClone",
+    "seed": 0,
+    "speed": 1.0,
+    "text": "Hello World",
+    "promptAudio": "https://modstart-lib-public.oss-cn-shanghai.aliyuncs.com/example/wav.wav",
+    "promptText": "我这边是办理银行贷款的，利息最低5厘最高30年，请问您有贷款需要吗？",
+    "crossLingual": true
+  }
+}

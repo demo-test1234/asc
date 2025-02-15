@@ -7,11 +7,13 @@ import requests
 
 import _aigcpanel.base.util
 
+
 def getCacheRoot():
     cacheRoot = _aigcpanel.base.util.rootDir('_cache/file')
     if not os.path.exists(cacheRoot):
         os.makedirs(cacheRoot)
     return cacheRoot
+
 
 def contentFromUrl(url):
     headers = {
@@ -81,6 +83,7 @@ def localCache(pathOrUrl):
     else:
         return pathOrUrl
 
+
 def localCacheRandomPath(ext):
     cacheRoot = getCacheRoot()
     md5 = hashlib.md5(str(time.time()).encode('utf-8')).hexdigest()
@@ -100,7 +103,16 @@ def upload(config, localFile, ossPath):
         raise ValueError(f"Unsupported upload type: {config['type']}")
 
 
-def uploadToRandom(config, localFile):
+def uploadToRandom(config, localFile, delete=True):
     ext = localFile.split('.')[-1]
     ossPath = 'temp/' + _aigcpanel.base.util.randomString() + '.' + ext
-    return upload(config, localFile, ossPath)
+    result = upload(config, localFile, ossPath)
+    if delete:
+        os.remove(localFile)
+    return result
+
+
+def urlForResult(config, url):
+    if config['mode'] == 'schedule':
+        url = _aigcpanel.base.file.uploadToRandom(config['uploadConfig'], url)
+    return url

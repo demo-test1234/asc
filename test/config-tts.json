@@ -1,0 +1,10 @@
+{
+  "mode": "local",
+  "modelConfig": {
+    "type": "tts",
+    "text": "你好",
+    "speakerId": "中文女",
+    "seed": 0,
+    "speed": 1.0
+  }
+}
