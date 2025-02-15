@@ -30,7 +30,7 @@ def contentText(pathOrUrl):
     if pathOrUrl.startswith('http'):
         return contentFromUrl(pathOrUrl)
     else:
-        with open(pathOrUrl, 'r') as file:
+        with open(pathOrUrl, 'r', encoding='utf-8') as file:
             return file.read()
     raise ValueError(f"Invalid path or URL: {pathOrUrl}")
 
