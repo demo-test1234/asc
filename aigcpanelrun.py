@@ -16,7 +16,7 @@ import soundfile
 import librosa
 
 useCuda = torch.cuda.is_available()
-print('开始运行')
+print('开始运行', {'UseCuda': useCuda})
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '_cache', 'modelscope')
 sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
@@ -29,10 +29,13 @@ sys.path.append('{}/binary'.format(ROOT_DIR))
 
 def main():
     config = _aigcpanel.base.file.contentJson(sys.argv[1])
-    _aigcpanel.base.result.param(config, 'UseCuda', useCuda)
+    print('config', config, sys.argv)
+    if not 'id' in config:
+        print('config.id not found')
+        exit(-1)
+    _aigcpanel.base.result.result(config, {'UseCuda': useCuda})
     if not 'mode' in config:
         config['mode'] = 'local'
-    print('config', config)
     modelConfig = config['modelConfig']
     model_dir = _aigcpanel.base.util.rootDir('aigcpanelmodels/CosyVoice-300M')
     cosyvoice = CosyVoice(model_dir)
@@ -52,7 +55,7 @@ def main():
         audio_data = np.concatenate(audio_data)
         url = _aigcpanel.base.file.localCacheRandomPath('wav')
         soundfile.write(url, audio_data, 22050)
-        _aigcpanel.base.result.output(config, {'url': _aigcpanel.base.file.urlForResult(config, url)})
+        _aigcpanel.base.result.result(config, {'url': _aigcpanel.base.file.urlForResult(config, url)})
         return
 
     if modelConfig['type'] == 'soundClone':
@@ -79,7 +82,7 @@ def main():
         audio_data = np.concatenate(audio_data)
         url = _aigcpanel.base.file.localCacheRandomPath('wav')
         soundfile.write(url, audio_data, 22050)
-        _aigcpanel.base.result.output(config, {'url': _aigcpanel.base.file.urlForResult(config, url)})
+        _aigcpanel.base.result.result(config, {'url': _aigcpanel.base.file.urlForResult(config, url)})
         return
 
     raise Exception('Unknown model type:', modelConfig['type'])

@@ -2,7 +2,6 @@ import hashlib
 import json
 import os
 import time
-import oss2
 import requests
 
 import _aigcpanel.base.util
@@ -17,12 +16,13 @@ def getCacheRoot():
 
 def contentFromUrl(url):
     headers = {
-        'User-Agent': 'AigcPanel'
+        'User-Agent': 'AigcPanelServer'
     }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.text
     else:
+        print('contentFromUrl.error', response.status_code, response.text)
         return None
 
 
@@ -46,7 +46,7 @@ def contentJson(pathOrUrl):
 def downloadFileDirect(url, path):
     cleanCache()
     headers = {
-        'User-Agent': 'AigcPanel'
+        'User-Agent': 'AigcPanelServer'
     }
     response = requests.get(url, headers=headers, stream=True)
     if response.status_code == 200:
@@ -90,17 +90,42 @@ def localCacheRandomPath(ext):
     return os.path.join(cacheRoot, f'{md5}.{ext}')
 
 
-def upload(config, localFile, ossPath):
-    if config['type'] == 'oss':
-        try:
+def upload(config, localFile, remotePath):
+    try:
+        if config['type'] == 'AliyunOss':
+            import oss2
             auth = oss2.Auth(config['accessKeyId'], config['accessKeySecret'])
             bucket = oss2.Bucket(auth, config['endpoint'], config['bucket'])
-            bucket.put_object_from_file(ossPath, localFile)
-            return f"{config['url']}/{ossPath}"
-        except Exception as e:
-            print(f"Error uploading file to OSS: {e}")
-    else:
-        raise ValueError(f"Unsupported upload type: {config['type']}")
+            bucket.put_object_from_file(remotePath, localFile)
+            return f"{config['url']}/{remotePath}"
+        elif config['type'] == 'QiniuKodo':
+            from qiniu import Auth, put_file
+            q = Auth(config['ak'], config['sk'])
+            token = q.upload_token(config['bucket'], remotePath, 3600)
+            ret, info = put_file(token, remotePath, localFile, version='v2')
+            return f"{config['url']}/{remotePath}"
+        elif config['type'] == 'QcloudCos':
+            from qcloud_cos import CosConfig
+            from qcloud_cos import CosS3Client
+            qconfig = CosConfig(Region=config['region'],
+                                SecretId=config['secretId'],
+                                SecretKey=config['secretKey'],
+                                Token=None)
+            client = CosS3Client(qconfig)
+            with open(localFile, 'rb') as fp:
+                response = client.put_object(
+                    Bucket=config['bucket'],
+                    Body=fp,
+                    Key=remotePath,
+                    StorageClass='STANDARD',
+                    EnableMD5=False
+                )
+            print('response', response)
+            return f"{config['url']}/{remotePath}"
+        else:
+            raise ValueError(f"Unsupported upload type: {config['type']}")
+    except Exception as e:
+        print(f"Error uploading file to: {e}")
 
 
 def uploadToRandom(config, localFile, delete=True):
