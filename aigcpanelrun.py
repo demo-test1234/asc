@@ -4,6 +4,7 @@ import sys
 import _aigcpanel.base.file
 import _aigcpanel.base.result
 import _aigcpanel.base.util
+import _aigcpanel.base.log
 
 if len(sys.argv) != 2:
     print("Usage: python -u -m aigcpanelrun <config_url>")
@@ -16,7 +17,7 @@ import soundfile
 import librosa
 
 useCuda = torch.cuda.is_available()
-print('开始运行', {'UseCuda': useCuda})
+_aigcpanel.base.log.info('开始运行', {'UseCuda': useCuda})
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.environ["MODELSCOPE_CACHE"] = os.path.join(ROOT_DIR, '_cache', 'modelscope')
 sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
@@ -29,9 +30,9 @@ sys.path.append('{}/binary'.format(ROOT_DIR))
 
 def main():
     config = _aigcpanel.base.file.contentJson(sys.argv[1])
-    print('config', config, sys.argv)
+    _aigcpanel.base.log.info('config', config, sys.argv)
     if not 'id' in config:
-        print('config.id not found')
+        _aigcpanel.base.log.info('config.id not found')
         exit(-1)
     _aigcpanel.base.result.result(config, {'UseCuda': useCuda})
     if not 'mode' in config:
@@ -43,14 +44,14 @@ def main():
     default_data = np.zeros(target_sr)
 
     if modelConfig['type'] == 'tts':
-        print('tts', modelConfig)
+        _aigcpanel.base.log.info('tts', modelConfig)
         set_all_random_seed(modelConfig['seed'])
         audio_data = []
         for i in cosyvoice.inference_sft(modelConfig['text'],
                                          modelConfig['speakerId'],
                                          stream=False,
                                          speed=modelConfig['speed']):
-            print('tts.i', i)
+            _aigcpanel.base.log.info('tts.i', i)
             audio_data.append(i['tts_speech'].numpy().flatten())
         audio_data = np.concatenate(audio_data)
         url = _aigcpanel.base.file.localCacheRandomPath('wav')
@@ -59,7 +60,7 @@ def main():
         return
 
     if modelConfig['type'] == 'soundClone':
-        print('soundClone', modelConfig)
+        _aigcpanel.base.log.info('soundClone', modelConfig)
         set_all_random_seed(modelConfig['seed'])
         modelConfig['_promptAudio'] = _aigcpanel.base.file.localCache(modelConfig['promptAudio'])
         prompt_speech_16k = postprocess(load_wav(modelConfig['_promptAudio'], 16000))
